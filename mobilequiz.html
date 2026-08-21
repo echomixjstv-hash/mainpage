@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Girls vs Boys Quiz</title>
+
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:#080b11;
+  color:white;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+}
+
+.app{
+  width:100%;
+  max-width:520px;
+  height:100dvh;
+  padding:7px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* SCORE */
+
+.scores{
+  height:68px;
+  flex-shrink:0;
+  display:grid;
+  grid-template-columns:1fr 45px 1fr;
+  gap:6px;
+}
+
+.team{
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 15px #0008;
+}
+
+.girls{
+  background:linear-gradient(145deg,#ec347d,#771540);
+}
+
+.boys{
+  background:linear-gradient(145deg,#2b84f3,#123b8b);
+}
+
+.teamName{
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+.score{
+  font-size:28px;
+  font-weight:900;
+}
+
+.vs{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:16px;
+  font-weight:900;
+}
+
+/* QUESTION */
+
+.questionBox{
+  height:108px;
+  flex-shrink:0;
+  margin-top:7px;
+  border-radius:15px;
+  background:#202630;
+  border:1px solid #363e4c;
+  position:relative;
+  padding:22px 10px 8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.qTop{
+  position:absolute;
+  top:5px;
+  left:8px;
+  right:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:9px;
+  color:#a4adbb;
+}
+
+.badges{
+  display:flex;
+  gap:4px;
+}
+
+.badge{
+  padding:3px 7px;
+  border-radius:15px;
+  color:white;
+  font-size:8px;
+  font-weight:900;
+}
+
+.category{
+  background:#475467;
+}
+
+.easy{
+  background:#20a85a;
+}
+
+.medium{
+  background:#c58b20;
+}
+
+.hard{
+  background:#d13a48;
+}
+
+.question{
+  font-size:19px;
+  line-height:1.2;
+  font-weight:800;
+}
+
+/* ANSWERS */
+
+.answers{
+  margin-top:7px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  flex-shrink:0;
+}
+
+.answer{
+  width:100%;
+  height:40px;
+  border:0;
+  border-radius:10px;
+  color:white;
+  display:flex;
+  align-items:center;
+  padding:4px 10px;
+  font-size:14px;
+  font-weight:bold;
+  text-align:left;
+}
+
+.answer span{
+  width:29px;
+  height:29px;
+  border-radius:50%;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-right:9px;
+  background:#0004;
+}
+
+.a{background:#d84b5c}
+.b{background:#d68b2d}
+.c{background:#398fd0}
+.d{background:#7556c7}
+
+.answer.correct{
+  background:#16a94d!important;
+  box-shadow:0 0 0 3px #53ff87,0 0 20px #53ff8766;
+}
+
+.answer.blink{
+  animation:greenBlink .5s infinite alternate;
+}
+
+@keyframes greenBlink{
+  from{
+    background:#16a94d;
+    box-shadow:0 0 0 3px #54ff87;
+  }
+  to{
+    background:#063d20;
+    box-shadow:0 0 0 3px #54ff87,0 0 28px #54ff87;
+  }
+}
+
+.answer.wrong{
+  opacity:.3;
+}
+
+/* TIMER */
+
+.timer{
+  height:10px;
+  margin-top:8px;
+  flex-shrink:0;
+  background:#252d2a;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.timerBar{
+  width:100%;
+  height:100%;
+  background:#24dc6b;
+}
+
+/* STATUS */
+
+.status{
+  height:29px;
+  flex-shrink:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  font-size:11px;
+  font-weight:bold;
+  color:#6cff9a;
+}
+
+/* FLOATING */
+
+.comments{
+  height:62px;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  border-radius:12px;
+  background:#171b22;
+  border:1px solid #292f39;
+}
+
+.live{
+  position:absolute;
+  top:3px;
+  left:8px;
+  font-size:8px;
+  color:#7d8795;
+  z-index:5;
+}
+
+.avatar{
+  position:absolute;
+  bottom:-43px;
+  width:38px;
+  height:38px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid white;
+  animation:floatUp 3.5s linear forwards;
+}
+
+@keyframes floatUp{
+  0%{
+    transform:translateY(0) scale(.5);
+    opacity:0;
+  }
+  15%{opacity:1}
+  75%{opacity:1}
+  100%{
+    transform:translateY(-105px) scale(1);
+    opacity:0;
+  }
+}
+
+/* OVERLAY */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:#03050ae8;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.panel{
+  width:100%;
+  max-width:430px;
+  max-height:88vh;
+  overflow:hidden;
+  background:#1a1f28;
+  border:1px solid #39414f;
+  border-radius:22px;
+  padding:18px;
+  text-align:center;
+  box-shadow:0 15px 50px #000b;
+  animation:pop .3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* START */
+
+.startTitle{
+  font-size:22px;
+  font-weight:900;
+}
+
+.countNumber{
+  font-size:72px;
+  font-weight:1000;
+  margin-top:10px;
+  animation:pulse .8s infinite alternate;
+}
+
+@keyframes pulse{
+  from{transform:scale(.9);opacity:.65}
+  to{transform:scale(1.1);opacity:1}
+}
+
+.startCategory{
+  margin-top:5px;
+  font-size:13px;
+  color:#9ea8b8;
+}
+
+/* RESULT */
+
+.resultTitle{
+  font-size:23px;
+  font-weight:900;
+}
+
+.correctAnswer{
+  color:#62ff97;
+  font-size:14px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.section{
+  background:#10141b;
+  border-radius:14px;
+  padding:10px;
+  margin-top:9px;
+}
+
+.sectionTitle{
+  font-size:10px;
+  color:#929baa;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.playerList{
+  max-height:105px;
+  overflow:hidden;
+}
+
+.player{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:4px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.player img{
+  width:29px;
+  height:29px;
+  border-radius:50%;
+  border:2px solid white;
+}
+
+.first{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
+
+.first img{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:3px solid white;
+}
+
+.roundPoints{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:900;
+  color:#6cff9a;
+}
+
+.next{
+  margin-top:12px;
+  color:#778190;
+  font-size:9px;
+}
+
+/* FINAL */
+
+.finalTitle{
+  font-size:35px;
+  font-weight:1000;
+  margin-bottom:7px;
+}
+
+.finalSub{
+  font-size:12px;
+  color:#aab2bf;
+}
+
+.finalScores{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:15px;
+}
+
+.finalTeam{
+  padding:15px 5px;
+  border-radius:15px;
+}
+
+.finalGirls{
+  background:#8b174d;
+}
+
+.finalBoys{
+  background:#164b9d;
+}
+
+.finalTeamName{
+  font-size:11px;
+  font-weight:bold;
+}
+
+.finalScore{
+  font-size:32px;
+  font-weight:900;
+}
+
+/* RESPONSIVE */
+
+@media(max-height:650px){
+  .app{padding:5px}
+  .scores{height:61px}
+  .questionBox{height:89px}
+  .question{font-size:16px}
+  .answer{height:35px;font-size:12px}
+  .answer span{width:26px;height:26px}
+  .timer{margin-top:5px}
+  .status{height:24px}
+  .comments{height:52px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SCORE -->
+  <div class="scores">
+
+    <div class="team girls">
+      <div class="teamName">GIRLS</div>
+      <div class="score" id="girlsScore">0</div>
+    </div>
+
+    <div class="vs">VS</div>
+
+    <div class="team boys">
+      <div class="teamName">BOYS</div>
+      <div class="score" id="boysScore">0</div>
+    </div>
+
+  </div>
+
+
+  <!-- QUESTION -->
+  <div class="questionBox">
+
+    <div class="qTop">
+
+      <span id="qNumber">
+        QUESTION 1 / 15
+      </span>
+
+      <div class="badges">
+
+        <span class="badge category"
+              id="category">
+          GENERAL
+        </span>
+
+        <span class="badge easy"
+              id="difficulty">
+          EASY ×1
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="question"
+         id="question">
+      Loading...
+    </div>
+
+  </div>
+
+
+  <!-- ANSWERS -->
+
+  <div class="answers">
+
+    <button class="answer a"
+            data-answer="A">
+      <span>A</span>
+      <label></label>
+    </button>
+
+    <button class="answer b"
+            data-answer="B">
+      <span>B</span>
+      <label></label>
+    </button>
+
+    <button class="answer c"
+            data-answer="C">
+      <span>C</span>
+      <label></label>
+    </button>
+
+    <button class="answer d"
+            data-answer="D">
+      <span>D</span>
+      <label></label>
+    </button>
+
+  </div>
+
+
+  <!-- TIMER -->
+
+  <div class="timer">
+    <div class="timerBar"
+         id="timerBar">
+    </div>
+  </div>
+
+
+  <div class="status"
+       id="status">
+    Comment A, B, C, D for 1 point entry
+  </div>
+
+
+  <!-- FLOATING COMMENTS -->
+
+  <div class="comments"
+       id="comments">
+
+    <div class="live">
+      LIVE ANSWERS
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- OVERLAY -->
+
+<div class="overlay"
+     id="overlay">
+</div>
+
+
+<script>
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const QUESTIONS_PER_ROUND = 15;
+const QUESTION_TIME = 20000;
+const BLINK_TIME = 3000;
+const START_COUNTDOWN = 5;
+
+
+/* =====================================================
+   QUESTION BANK
+   1500 QUESTIONS ARE GENERATED FROM THESE
+   CATEGORY TEMPLATES.
+
+   Replace/add real questions here later.
+===================================================== */
+
+const bankTemplates = [
+
+  /* GENERAL KNOWLEDGE */
+
+  {
+    category:"GENERAL KNOWLEDGE",
+    easy:[
+      ["How many days are there in one week?",["5","6","7","8"],"C"],
+      ["How many months are there in one year?",["10","11","12","13"],"C"],
+      ["What color is made by mixing red and white?",["Pink","Green","Blue","Black"],"A"],
+      ["How many hours are there in one day?",["12","18","24","30"],"C"]
+    ],
+    medium:[
+      ["What is the capital of Japan?",["Seoul","Tokyo","Beijing","Bangkok"],"B"],
+      ["Which planet is known as the Red Planet?",["Venus","Mars","Earth","Mercury"],"B"],
+      ["What is the largest ocean?",["Atlantic","Indian","Pacific","Arctic"],"C"],
+      ["Which country is famous for the pyramids of Giza?",["Greece","Egypt","Italy","Mexico"],"B"]
+    ],
+    hard:[
+      ["What is the chemical symbol for sodium?",["So","Na","Sd","Sn"],"B"],
+      ["What is the smallest prime number?",["0","1","2","3"],"C"],
+      ["Which element has atomic number 79?",["Silver","Gold","Iron","Copper"],"B"],
+      ["What is the hardest natural substance?",["Gold","Iron","Diamond","Quartz"],"C"]
+    ]
+  },
+
+
+  /* SCIENCE */
+
+  {
+    category:"SCIENCE",
+    easy:[
+      ["What do plants need from sunlight?",["Sound","Light","Salt","Metal"],"B"],
+      ["Which organ pumps blood?",["Liver","Heart","Lung","Kidney"],"B"],
+      ["What gas do humans breathe in?",["Oxygen","Carbon dioxide","Helium","Hydrogen"],"A"],
+      ["What force pulls objects toward Earth?",["Magnetism","Gravity","Friction","Pressure"],"B"]
+    ],
+    medium:[
+      ["Which gas do plants absorb during photosynthesis?",["Oxygen","Nitrogen","Carbon dioxide","Helium"],"C"],
+      ["Which planet is closest to the Sun?",["Earth","Venus","Mercury","Mars"],"C"],
+      ["What is H2O commonly called?",["Salt","Water","Oxygen","Hydrogen"],"B"],
+      ["Which part of a plant absorbs water?",["Flower","Leaf","Root","Fruit"],"C"]
+    ],
+    hard:[
+      ["What is the basic unit of life?",["Atom","Cell","Organ","Tissue"],"B"],
+      ["What is the approximate speed of light?",["300 km/s","3,000 km/s","300,000 km/s","3,000,000 km/s"],"C"],
+      ["Which particle has a negative charge?",["Proton","Neutron","Electron","Photon"],"C"],
+      ["What is the pH of pure water at room temperature?",["3","5","7","9"],"C"]
+    ]
+  },
+
+
+  /* HISTORY */
+
+  {
+    category:"HISTORY",
+    easy:[
+      ["Who was the first president of the United States?",["George Washington","Abraham Lincoln","Thomas Jefferson","John Adams"],"A"],
+      ["Which ancient civilization built pyramids in Egypt?",["Roman","Egyptian","Viking","Mayan"],"B"],
+      ["Where were the Olympic Games originally held?",["Rome","Greece","Egypt","China"],"B"],
+      ["Which famous ship sank in 1912?",["Titanic","Mayflower","Santa Maria","Victoria"],"A"]
+    ],
+    medium:[
+      ["Who wrote the Declaration of Independence of the United States?",["Thomas Jefferson","George Washington","Benjamin Franklin","John Adams"],"A"],
+      ["Which empire was ruled by Julius Caesar?",["Roman","Mongol","Ottoman","British"],"A"],
+      ["The Renaissance began primarily in which country?",["France","Italy","Spain","Germany"],"B"],
+      ["Who was known as the Maid of Orléans?",["Cleopatra","Joan of Arc","Marie Curie","Elizabeth I"],"B"]
+    ],
+    hard:[
+      ["In which year did World War II end?",["1943","1944","1945","1946"],"C"],
+      ["Which treaty formally ended World War I with Germany?",["Treaty of Paris","Treaty of Versailles","Treaty of Rome","Treaty of Vienna"],"B"],
+      ["Which civilization developed cuneiform writing?",["Sumerian","Roman","Greek","Viking"],"A"],
+      ["Who was the first emperor of Rome?",["Julius Caesar","Augustus","Nero","Constantine"],"B"]
+    ]
+  },
+
+
+  /* GEOGRAPHY */
+
+  {
+    category:"GEOGRAPHY",
+    easy:[
+      ["What is the largest continent?",["Africa","Asia","Europe","Australia"],"B"],
+      ["Which country is shaped like a boot?",["France","Italy","Spain","Portugal"],"B"],
+      ["What is the capital of the Philippines?",["Cebu","Davao","Manila","Baguio"],"C"],
+      ["Which ocean is east of Africa?",["Atlantic","Pacific","Indian","Arctic"],"C"]
+    ],
+    medium:[
+      ["Which is the longest river in South America?",["Amazon","Nile","Yangtze","Mississippi"],"A"],
+      ["What is the largest country by land area?",["China","Canada","Russia","USA"],"C"],
+      ["Which desert is the largest hot desert?",["Gobi","Sahara","Atacama","Kalahari"],"B"],
+      ["Mount Everest is located in which mountain range?",["Andes","Alps","Himalayas","Rockies"],"C"]
+    ],
+    hard:[
+      ["Which country has the most time zones when overseas territories are included?",["Russia","France","USA","China"],"B"],
+      ["Which strait separates Europe and Africa at their closest point?",["Bering Strait","Strait of Gibraltar","Bosporus","Malacca Strait"],"B"],
+      ["What is the deepest lake in the world?",["Lake Superior","Lake Baikal","Lake Victoria","Lake Tanganyika"],"B"],
+      ["Which river flows through Baghdad?",["Tigris","Nile","Danube","Ganges"],"A"]
+    ]
+  },
+
+
+  /* MUSIC */
+
+  {
+    category:"MUSIC",
+    easy:[
+      ["How many strings does a standard guitar have?",["4","5","6","7"],"C"],
+      ["Which instrument commonly has black and white keys?",["Drum","Piano","Trumpet","Violin"],"B"],
+      ["How many beats are commonly in a 4/4 measure?",["2","3","4","8"],"C"],
+      ["Which instrument is commonly played with drumsticks?",["Drum","Flute","Violin","Piano"],"A"]
+    ],
+    medium:[
+      ["Which family does the violin belong to?",["Brass","String","Woodwind","Percussion"],"B"],
+      ["What does BPM commonly mean in music?",["Bars Per Melody","Beats Per Minute","Bass Per Measure","Beat Power Mode"],"B"],
+      ["Which clef is commonly used for higher-pitched notes?",["Bass","Treble","Alto","Tenor"],"B"],
+      ["What is a group of three notes played together called?",["Triplet","Octave","Scale","Chord"],"A"]
+    ],
+    hard:[
+      ["How many semitones are in an octave?",["8","10","12","14"],"C"],
+      ["Which composer wrote the Ninth Symphony commonly associated with 'Ode to Joy'?",["Mozart","Beethoven","Bach","Chopin"],"B"],
+      ["What is the interval from C to the next C called?",["Fifth","Sixth","Octave","Major third"],"C"],
+      ["Which term means gradually becoming louder?",["Diminuendo","Crescendo","Staccato","Legato"],"B"]
+    ]
+  },
+
+
+  /* SPORTS */
+
+  {
+    category:"SPORTS",
+    easy:[
+      ["How many players are on a basketball team on the court?",["4","5","6","7"],"B"],
+      ["Which sport uses a racket and shuttlecock?",["Tennis","Badminton","Baseball","Golf"],"B"],
+      ["How many bases are there in baseball?",["3","4","5","6"],"B"],
+      ["Which sport is played at Wimbledon?",["Football","Tennis","Basketball","Cricket"],"B"]
+    ],
+    medium:[
+      ["How many points is a free throw worth in basketball?",["1","2","3","4"],"A"],
+      ["How long is an Olympic swimming pool?",["25 m","40 m","50 m","100 m"],"C"],
+      ["Which country hosted the first modern Olympic Games?",["France","Greece","USA","UK"],"B"],
+      ["How many players are on the field for one soccer team?",["9","10","11","12"],"C"]
+    ],
+    hard:[
+      ["How many squares are on a chessboard?",["32","48","64","72"],"C"],
+      ["In tennis, what score comes after deuce when a player wins one point?",["Match","Advantage","Set","Break"],"B"],
+      ["How many events are in a standard decathlon?",["8","9","10","12"],"C"],
+      ["How many holes are played in a standard round of golf?",["9","12","18","20"],"C"]
+    ]
+  },
+
+
+  /* TECHNOLOGY */
+
+  {
+    category:"TECHNOLOGY",
+    easy:[
+      ["What does CPU stand for?",["Central Processing Unit","Computer Power Unit","Central Program Utility","Control Processing User"],"A"],
+      ["Which device is used to type text?",["Mouse","Keyboard","Monitor","Speaker"],"B"],
+      ["What does Wi-Fi allow devices to do?",["Connect wirelessly","Print money","Create electricity","Store water"],"A"],
+      ["Which device displays computer images?",["Monitor","Keyboard","Mouse","Router"],"A"]
+    ],
+    medium:[
+      ["What does HTML stand for?",["HyperText Markup Language","HighText Machine Language","Hyper Transfer Main Link","Home Tool Markup Language"],"A"],
+      ["What does USB commonly stand for?",["Universal Serial Bus","United System Board","Universal Storage Box","User Signal Base"],"A"],
+      ["Which protocol is commonly used for secure websites?",["HTTP","FTP","HTTPS","SMTP"],"C"],
+      ["What does RAM primarily provide?",["Temporary working memory","Permanent storage","Internet access","Power"],"A"]
+    ],
+    hard:[
+      ["What does DNS translate?",["Domain names to IP addresses","Images to sound","Passwords to usernames","Files to folders"],"A"],
+      ["Which language is primarily used to style web pages?",["HTML","CSS","SQL","Python"],"B"],
+      ["Which data structure follows FIFO?",["Stack","Queue","Tree","Graph"],"B"],
+      ["What does API commonly stand for?",["Application Programming Interface","Advanced Program Input","Application Process Internet","Automated Programming Index"],"A"]
+    ]
+  },
+
+
+  /* ANIMALS */
+
+  {
+    category:"ANIMALS",
+    easy:[
+      ["Which animal is known as man's best friend?",["Cat","Dog","Horse","Rabbit"],"B"],
+      ["How many legs does a spider have?",["6","8","10","12"],"B"],
+      ["Which animal produces wool?",["Sheep","Cow","Dog","Horse"],"A"],
+      ["Which bird is known for saying words like humans?",["Eagle","Parrot","Penguin","Owl"],"B"]
+    ],
+    medium:[
+      ["Which mammal can fly?",["Bat","Penguin","Ostrich","Chicken"],"A"],
+      ["What is the largest land animal?",["Elephant","Giraffe","Rhino","Hippo"],"A"],
+      ["Which animal is the fastest land animal?",["Lion","Cheetah","Horse","Tiger"],"B"],
+      ["What do pandas mainly eat?",["Meat","Bamboo","Fish","Grass"],"B"]
+    ],
+    hard:[
+      ["Which animal has the largest brain among land animals?",["Elephant","Giraffe","Rhino","Hippo"],"A"],
+      ["What is the largest species of shark?",["Great white","Tiger shark","Whale shark","Hammerhead"],"C"],
+      ["Which bird can fly backward?",["Eagle","Hummingbird","Falcon","Swan"],"B"],
+      ["Which mammal lays eggs?",["Dolphin","Platypus","Whale","Kangaroo"],"B"]
+    ]
+  },
+
+
+  /* MOVIES */
+
+  {
+    category:"MOVIES",
+    easy:[
+      ["What do we call a person who acts in a movie?",["Actor","Pilot","Chef","Doctor"],"A"],
+      ["Where do people commonly watch movies at home?",["Television","Fridge","Oven","Printer"],"A"],
+      ["What device is commonly used to record movies?",["Camera","Keyboard","Router","Speaker"],"A"],
+      ["What is the person who directs a movie called?",["Director","Referee","Editor","Pilot"],"A"]
+    ],
+    medium:[
+      ["What is a movie sequel?",["A movie that continues an earlier story","A movie trailer","A movie poster","A soundtrack"],"A"],
+      ["What is CGI commonly used for?",["Computer-generated imagery","Audio recording","Ticket printing","Movie subtitles"],"A"],
+      ["What is a movie soundtrack?",["Music/audio associated with a movie","Movie ticket","Camera lens","Film location"],"A"],
+      ["What does a movie trailer usually show?",["A preview","The full movie","Only credits","Only music"],"A"]
+    ],
+    hard:[
+      ["What does cinematography primarily concern?",["Visual aspects of filmmaking","Movie tickets","Actor salaries","Sound distribution"],"A"],
+      ["What is a screenplay?",["Written script for a film","Movie poster","Soundtrack","Camera"],"A"],
+      ["What is a film's aspect ratio?",["Relationship of width to height","Movie duration","Number of actors","Audio volume"],"A"],
+      ["What is post-production?",["Work done after filming","Casting before filming","Selling tickets","Writing reviews"],"A"]
+    ]
+  }
+
+];
+
+
+/* =====================================================
+   BUILD 1500 QUESTION BANK
+===================================================== */
+
+let questionBank = [];
+
+let id = 1;
+
+const variations = [
+  "",
+  " — Choose the best answer.",
+  " — What is the correct answer?",
+  " — Select the correct choice.",
+  " — Which answer is correct?"
+];
+
+for(let copy=0;copy<20;copy++){
+
+  bankTemplates.forEach(template=>{
+
+    ["easy","medium","hard"].forEach(level=>{
+
+      template[level].forEach(item=>{
+
+        const variation =
+          variations[
+            (copy + id) %
+            variations.length
+          ];
+
+        questionBank.push({
+
+          id:id++,
+
+          category:
+            template.category,
+
+          difficulty:
+            level.charAt(0).toUpperCase() +
+            level.slice(1),
+
+          points:
+            level==="easy"
+              ? 1
+              : level==="medium"
+                ? 2
+                : 3,
+
+          question:
+            item[0] + variation,
+
+          choices:
+            item[1].slice(),
+
+          correct:
+            item[2]
+
+        });
+
+      });
+
+    });
+
+  });
+
+}
+
+
+/*
+  Ensure exactly 1500 entries.
+  The base data is repeated with harmless
+  question wording variations for testing.
+*/
+
+while(questionBank.length < 1500){
+
+  const source =
+    questionBank[
+      questionBank.length %
+      questionBank.length
+    ];
+
+  questionBank.push({
+
+    ...source,
+
+    id:id++,
+
+    question:
+      source.question +
+      " #" +
+      id
+
+  });
+
+}
+
+questionBank =
+  questionBank.slice(0,1500);
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let roundQuestions = [];
+let currentQuestion = 0;
+
+let girlsScore = 0;
+let boysScore = 0;
+
+let current = null;
+
+let timer = null;
+let commentTimer = null;
+
+let questionStart = 0;
+
+let playerIndex = 0;
+
+
+/* =====================================================
+   SIMULATED PLAYERS
+===================================================== */
+
+const players = [
+
+  {
+    name:"Mia",
+    team:"Girls",
+    answer:"C",
+    image:"https://i.pravatar.cc/100?img=1"
+  },
+
+  {
+    name:"John",
+    team:"Boys",
+    answer:"C",
+    image:"https://i.pravatar.cc/100?img=12"
+  },
+
+  {
+    name:"Anna",
+    team:"Girls",
+    answer:"C",
+    image:"https://i.pravatar.cc/100?img=5"
+  },
+
+  {
+    name:"Mark",
+    team:"Boys",
+    answer:"A",
+    image:"https://i.pravatar.cc/100?img=13"
+  },
+
+  {
+    name:"Lara",
+    team:"Girls",
+    answer:"B",
+    image:"https://i.pravatar.cc/100?img=9"
+  },
+
+  {
+    name:"Ryan",
+    team:"Boys",
+    answer:"C",
+    image:"https://i.pravatar.cc/100?img=15"
+  },
+
+  {
+    name:"Kate",
+    team:"Girls",
+    answer:"D",
+    image:"https://i.pravatar.cc/100?img=10"
+  },
+
+  {
+    name:"Daniel",
+    team:"Boys",
+    answer:"B",
+    image:"https://i.pravatar.cc/100?img=14"
+  }
+
+];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const girlsScoreEl =
+  document.getElementById("girlsScore");
+
+const boysScoreEl =
+  document.getElementById("boysScore");
+
+const questionEl =
+  document.getElementById("question");
+
+const qNumberEl =
+  document.getElementById("qNumber");
+
+const categoryEl =
+  document.getElementById("category");
+
+const difficultyEl =
+  document.getElementById("difficulty");
+
+const timerBar =
+  document.getElementById("timerBar");
+
+const statusEl =
+  document.getElementById("status");
+
+const commentsEl =
+  document.getElementById("comments");
+
+const overlay =
+  document.getElementById("overlay");
+
+const buttons =
+  document.querySelectorAll(".answer");
+
+
+/* =====================================================
+   SHUFFLE
+===================================================== */
+
+function shuffle(array){
+
+  const arr =
+    array.slice();
+
+  for(let i=arr.length-1;i>0;i--){
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (i+1)
+      );
+
+    [
+      arr[i],
+      arr[j]
+    ] =
+    [
+      arr[j],
+      arr[i]
+    ];
+
+  }
+
+  return arr;
+
+}
+
+
+/* =====================================================
+   NEW ROUND
+===================================================== */
+
+function newRound(){
+
+  clearInterval(timer);
+  clearInterval(commentTimer);
+
+  girlsScore = 0;
+  boysScore = 0;
+
+  girlsScoreEl.textContent = "0";
+  boysScoreEl.textContent = "0";
+
+  currentQuestion = 0;
+
+  /*
+    Pick exactly 15 unique random questions
+    from the 1500-question bank.
+  */
+
+  roundQuestions =
+    shuffle(questionBank)
+    .slice(0,15);
+
+  showStartCountdown();
+
+}
+
+
+/* =====================================================
+   5 SECOND START
+===================================================== */
+
+function showStartCountdown(){
+
+  clearInterval(timer);
+  clearInterval(commentTimer);
+
+  overlay.classList.add("show");
+
+  let count =
+    START_COUNTDOWN;
+
+  overlay.innerHTML =
+    `
+    <div class="panel">
+
+      <div class="startTitle">
+        START THE QUIZ IN
+      </div>
+
+      <div class="countNumber"
+           id="startNumber">
+        ${count}
+      </div>
+
+      <div class="startCategory">
+        Get ready!
+      </div>
+
+    </div>
+    `;
+
+
+  const number =
+    document.getElementById(
+      "startNumber"
+    );
+
+
+  const countdown =
+    setInterval(()=>{
+
+      count--;
+
+      if(count <= 0){
+
+        clearInterval(countdown);
+
+        overlay.classList.remove(
+          "show"
+        );
+
+        loadQuestion();
+
+        return;
+
+      }
+
+      number.textContent =
+        count;
+
+    },1000);
+
+}
+
+
+/* =====================================================
+   LOAD QUESTION
+===================================================== */
+
+function loadQuestion(){
+
+  current =
+    roundQuestions[
+      currentQuestion
+    ];
+
+
+  qNumberEl.textContent =
+    "QUESTION " +
+    (currentQuestion + 1) +
+    " / 15";
+
+
+  categoryEl.textContent =
+    current.category;
+
+
+  difficultyEl.textContent =
+    current.difficulty.toUpperCase() +
+    " ×" +
+    current.points;
+
+
+  difficultyEl.className =
+    "badge " +
+    (
+      current.difficulty === "Easy"
+        ? "easy"
+        : current.difficulty === "Medium"
+          ? "medium"
+          : "hard"
+    );
+
+
+  questionEl.textContent =
+    current.question;
+
+
+  buttons.forEach((button,index)=>{
+
+    button.disabled = false;
+
+    button.classList.remove(
+      "correct",
+      "wrong",
+      "blink"
+    );
+
+    button.querySelector(
+      "label"
+    ).textContent =
+      current.choices[index];
+
+  });
+
+
+  statusEl.textContent =
+    "Comment A, B, C, D for " +
+    current.points +
+    " point" +
+    (
+      current.points > 1
+        ? "s"
+        : ""
+    ) +
+    " entry";
+
+
+  startTimer();
+
+  startComments();
+
+}
+
+
+/* =====================================================
+   20 SECOND TIMER
+===================================================== */
+
+function startTimer(){
+
+  clearInterval(timer);
+
+  timerBar.style.width =
+    "100%";
+
+  timerBar.style.background =
+    "#24dc6b";
+
+  questionStart =
+    performance.now();
+
+
+  timer =
+    setInterval(()=>{
+
+      const elapsed =
+        performance.now() -
+        questionStart;
+
+      const remaining =
+        Math.max(
+          0,
+          QUESTION_TIME -
+          elapsed
+        );
+
+
+      const percent =
+        remaining /
+        QUESTION_TIME *
+        100;
+
+
+      timerBar.style.width =
+        percent + "%";
+
+
+      if(percent <= 35){
+
+        timerBar.style.background =
+          "#ffd43b";
+
+      }
+
+      if(percent <= 15){
+
+        timerBar.style.background =
+          "#ff4d5d";
+
+      }
+
+
+      if(remaining <= 0){
+
+        clearInterval(timer);
+
+        finishQuestion();
+
+      }
+
+    },40);
+
+}
+
+
+/* =====================================================
+   FLOATING SIMULATED COMMENTS
+===================================================== */
+
+function startComments(){
+
+  clearInterval(commentTimer);
+
+  commentTimer =
+    setInterval(()=>{
+
+      const player =
+        players[
+          playerIndex %
+          players.length
+        ];
+
+      playerIndex++;
+
+      createAvatar(player);
+
+    },550);
+
+}
+
+
+function createAvatar(player){
+
+  const img =
+    document.createElement(
+      "img"
+    );
+
+  img.className =
+    "avatar";
+
+  img.src =
+    player.image;
+
+  img.title =
+    player.name +
+    " • " +
+    player.team +
+    " • " +
+    player.answer;
+
+
+  const max =
+    commentsEl.clientWidth -
+    45;
+
+
+  img.style.left =
+    Math.max(
+      3,
+      Math.random() *
+      max
+    ) + "px";
+
+
+  img.style.borderColor =
+    player.team === "Girls"
+      ? "#f34b91"
+      : "#3c94ff";
+
+
+  commentsEl.appendChild(img);
+
+
+  setTimeout(()=>{
+    img.remove();
+  },3600);
+
+}
+
+
+/* =====================================================
+   FINISH QUESTION
+===================================================== */
+
+function finishQuestion(){
+
+  clearInterval(timer);
+  clearInterval(commentTimer);
+
+  buttons.forEach(
+    button=>{
+      button.disabled = true;
+    }
+  );
+
+
+  const correctButton =
+    document.querySelector(
+      `[data-answer="${current.correct}"]`
+    );
+
+
+  if(correctButton){
+
+    correctButton.classList.add(
+      "blink"
+    );
+
+  }
+
+
+  statusEl.textContent =
+    "REVEALING ANSWER...";
+
+
+  setTimeout(()=>{
+
+    if(correctButton){
+
+      correctButton.classList.remove(
+        "blink"
+      );
+
+      correctButton.classList.add(
+        "correct"
+      );
+
+    }
+
+
+    showResults();
+
+  },BLINK_TIME);
+
+}
+
+
+/* =====================================================
+   RESULTS
+===================================================== */
+
+function showResults(){
+
+  /*
+    In the test version, simulated players
+    answer using their predefined answer.
+
+    Every correct player gets points.
+  */
+
+  const correctPlayers =
+    players.filter(
+      p =>
+        p.answer ===
+        current.correct
+    );
+
+
+  let girlsRound = 0;
+  let boysRound = 0;
+
+
+  correctPlayers.forEach(
+    player=>{
+
+      if(player.team === "Girls"){
+
+        girlsRound +=
+          current.points;
+
+      }else{
+
+        boysRound +=
+          current.points;
+
+      }
+
+    }
+  );
+
+
+  girlsScore +=
+    girlsRound;
+
+  boysScore +=
+    boysRound;
+
+
+  girlsScoreEl.textContent =
+    girlsScore;
+
+  boysScoreEl.textContent =
+    boysScore;
+
+
+  const correctIndex =
+    current.correct.charCodeAt(0) -
+    65;
+
+
+  overlay.innerHTML =
+    `
+    <div class="panel">
+
+      <div class="resultTitle">
+        REVEAL ANSWER
+      </div>
+
+      <div class="correctAnswer">
+        CORRECT: ${current.correct}
+        — ${current.choices[correctIndex]}
+      </div>
+
+      <div class="section">
+
+        <div class="sectionTitle">
+          CORRECT PLAYERS
+        </div>
+
+        <div class="playerList"
+             id="correctList">
+        </div>
+
+      </div>
+
+      <div class="section">
+
+        <div class="sectionTitle">
+          FIRST TO ANSWER
+        </div>
+
+        <div class="first"
+             id="firstPlayer">
+        </div>
+
+      </div>
+
+      <div class="roundPoints">
+        GIRLS +${girlsRound}
+        &nbsp; • &nbsp;
+        BOYS +${boysRound}
+      </div>
+
+      <div class="next">
+        NEXT QUESTION...
+      </div>
+
+    </div>
+    `;
+
+
+  const list =
+    document.getElementById(
+      "correctList"
+    );
+
+
+  if(correctPlayers.length === 0){
+
+    list.innerHTML =
+      "<div class='player'>No correct answers</div>";
+
+  }else{
+
+    correctPlayers.forEach(
+      player=>{
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+        row.className =
+          "player";
+
+        row.innerHTML =
+          `
+          <img src="${player.image}">
+          <span>${player.name}</span>
+          <small>
+            ${player.team}
+            +${current.points}
+          </small>
+          `;
+
+        list.appendChild(row);
+
+      }
+    );
+
+  }
+
+
+  const first =
+    correctPlayers[0];
+
+  const firstBox =
+    document.getElementById(
+      "firstPlayer"
+    );
+
+
+  if(first){
+
+    firstBox.innerHTML =
+      `
+      <img src="${first.image}">
+
+      <strong>
+        ${first.name}
+      </strong>
+
+      <span class="badge"
+        style="
+        background:
+        ${first.team === "Girls"
+          ? "#d92b78"
+          : "#267ff0"}">
+        ${first.team}
+      </span>
+      `;
+
+  }else{
+
+    firstBox.innerHTML =
+      "<strong>No correct player</strong>";
+
+  }
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+
+  /*
+    After result:
+    next question or final result
+  */
+
+  setTimeout(()=>{
+
+    overlay.classList.remove(
+      "show"
+    );
+
+
+    currentQuestion++;
+
+
+    if(
+      currentQuestion >=
+      QUESTIONS_PER_ROUND
+    ){
+
+      showFinalResult();
+
+    }else{
+
+      loadQuestion();
+
+    }
+
+  },4500);
+
+}
+
+
+/* =====================================================
+   FINAL RESULT
+===================================================== */
+
+function showFinalResult(){
+
+  clearInterval(timer);
+  clearInterval(commentTimer);
+
+
+  let winner;
+
+
+  if(girlsScore > boysScore){
+
+    winner =
+      "GIRLS WIN";
+
+  }else if(
+    boysScore > girlsScore
+  ){
+
+    winner =
+      "BOYS WIN";
+
+  }else{
+
+    winner =
+      "DRAW";
+
+  }
+
+
+  overlay.innerHTML =
+    `
+    <div class="panel">
+
+      <div class="finalTitle">
+        ${winner}
+      </div>
+
+      <div class="finalSub">
+        ROUND COMPLETE
+      </div>
+
+      <div class="finalScores">
+
+        <div class="finalTeam finalGirls">
+
+          <div class="finalTeamName">
+            GIRLS
+          </div>
+
+          <div class="finalScore">
+            ${girlsScore}
+          </div>
+
+        </div>
+
+        <div class="finalTeam finalBoys">
+
+          <div class="finalTeamName">
+            BOYS
+          </div>
+
+          <div class="finalScore">
+            ${boysScore}
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="next">
+        NEW ROUND STARTING...
+      </div>
+
+    </div>
+    `;
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+
+  /*
+    Automatically restart
+    from the beginning.
+  */
+
+  setTimeout(()=>{
+
+    overlay.classList.remove(
+      "show"
+    );
+
+    newRound();
+
+  },5000);
+
+}
+
+
+/* =====================================================
+   MANUAL ANSWER TEST
+===================================================== */
+
+buttons.forEach(button=>{
+
+  button.addEventListener(
+    "click",
+    ()=>{
+
+      if(button.disabled)
+        return;
+
+
+      clearInterval(timer);
+      clearInterval(commentTimer);
+
+
+      buttons.forEach(
+        b=>{
+          b.disabled = true;
+        }
+      );
+
+
+      if(
+        button.dataset.answer ===
+        current.correct
+      ){
+
+        button.classList.add(
+          "correct"
+        );
+
+      }else{
+
+        button.classList.add(
+          "wrong"
+        );
+
+
+        const correctButton =
+          document.querySelector(
+            `[data-answer="${current.correct}"]`
+          );
+
+
+        if(correctButton){
+
+          correctButton.classList.add(
+            "correct"
+          );
+
+        }
+
+      }
+
+
+      finishQuestion();
+
+    }
+  );
+
+});
+
+
+/* =====================================================
+   START
+===================================================== */
+
+newRound();
+
+
+/* =====================================================
+   PREVENT SCROLL
+===================================================== */
+
+document.addEventListener(
+  "touchmove",
+  e=>e.preventDefault(),
+  {passive:false}
+);
+
+</script>
+
+</body>
+</html>
