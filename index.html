@@ -1,11 +1,16 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EchoMix Review Center</title>
+
+<title>EchoMix</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -21,12 +26,19 @@ body{
     color:#fff;
 }
 
+/* =========================
+   MAIN
+========================= */
+
 .home{
     min-height:100vh;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     padding:30px;
+
     background:
         radial-gradient(
             circle at 50% 35%,
@@ -36,17 +48,27 @@ body{
         );
 }
 
+/* =========================
+   CONTAINER
+========================= */
+
 .container{
     width:100%;
-    max-width:1100px;
+    max-width:1200px;
     text-align:center;
 }
 
+/* =========================
+   LOGO
+========================= */
+
 .logo{
-    font-size:clamp(40px,7vw,80px);
+    font-size:clamp(42px,7vw,90px);
     font-weight:900;
     letter-spacing:4px;
-    margin-bottom:8px;
+
+    margin-bottom:10px;
+
     text-transform:uppercase;
 
     background:
@@ -61,23 +83,45 @@ body{
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     background-clip:text;
+
+    filter:
+        drop-shadow(
+            0 0 15px
+            rgba(0,255,150,.25)
+        );
 }
 
 .subtitle{
     font-size:clamp(15px,2vw,22px);
     color:#aaa;
-    margin-bottom:45px;
+    margin-bottom:50px;
 }
+
+/* =========================
+   BUTTON AREA
+========================= */
 
 .buttons{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(4,1fr);
+
     gap:25px;
+
     width:100%;
+    max-width:1100px;
+
+    margin:auto;
 }
+
+/* =========================
+   BUTTON
+========================= */
 
 .menu-button{
     position:relative;
+
     min-height:230px;
 
     display:flex;
@@ -100,111 +144,214 @@ body{
 
     box-shadow:
         0 15px 40px rgba(0,0,0,.5),
-        inset 0 1px 0 rgba(255,255,255,.08);
+        inset 0 1px 0
+        rgba(255,255,255,.08);
 
     transition:
         transform .25s ease,
         border-color .25s ease,
-        box-shadow .25s ease;
+        box-shadow .25s ease,
+        background .25s ease;
 
     overflow:hidden;
 }
 
-.menu-button:hover{
-    transform:translateY(-8px) scale(1.02);
+.menu-button::before{
+    content:"";
+
+    position:absolute;
+    inset:-2px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.15),
+            transparent
+        );
+
+    opacity:0;
+
+    transition:.3s;
 }
+
+.menu-button:hover{
+    transform:
+        translateY(-8px)
+        scale(1.02);
+}
+
+.menu-button:hover::before{
+    opacity:1;
+}
+
+/* =========================
+   ICON
+========================= */
 
 .icon{
-    font-size:65px;
+    font-size:70px;
     margin-bottom:20px;
+
+    position:relative;
+    z-index:1;
 }
 
+/* =========================
+   TITLE
+========================= */
+
 .button-title{
-    font-size:28px;
+    font-size:30px;
     font-weight:800;
+
+    position:relative;
+    z-index:1;
 }
+
+/* =========================
+   DESCRIPTION
+========================= */
 
 .button-description{
     margin-top:8px;
+
     font-size:15px;
     color:#999;
+
+    position:relative;
+    z-index:1;
 }
 
-/* CSE */
+/* =========================
+   REVIEW CENTER
+========================= */
 
-.cse:hover{
+.review:hover{
+    border-color:#ff6b00;
+
+    box-shadow:
+        0 20px 60px
+        rgba(255,107,0,.18),
+
+        0 0 25px
+        rgba(255,107,0,.12);
+}
+
+/* =========================
+   HOSTING QUIZ
+========================= */
+
+.hosting:hover{
     border-color:#00ff88;
 
     box-shadow:
-        0 20px 60px rgba(0,255,136,.18),
-        0 0 25px rgba(0,255,136,.15);
+        0 20px 60px
+        rgba(0,255,136,.18),
+
+        0 0 25px
+        rgba(0,255,136,.15);
 }
 
-/* LET */
+/* =========================
+   CONTROLLER
+========================= */
 
-.let:hover{
+.controller:hover{
     border-color:#00d9ff;
 
     box-shadow:
-        0 20px 60px rgba(0,217,255,.18),
-        0 0 25px rgba(0,217,255,.12);
+        0 20px 60px
+        rgba(0,217,255,.18),
+
+        0 0 25px
+        rgba(0,217,255,.12);
 }
 
-/* OTHER */
+/* =========================
+   VIDEOKE
+========================= */
 
-.other:hover{
+.videoke:hover{
     border-color:#ff00cc;
 
     box-shadow:
-        0 20px 60px rgba(255,0,204,.18),
-        0 0 25px rgba(255,0,204,.12);
+        0 20px 60px
+        rgba(255,0,204,.18),
+
+        0 0 25px
+        rgba(255,0,204,.12);
 }
 
-.back{
-    display:inline-block;
-    margin-top:35px;
+/* =========================
+   WEBINAR
+========================= */
 
-    padding:12px 25px;
+.webinar:hover{
+    border-color:#ffd600;
 
-    border:1px solid #444;
-    border-radius:12px;
+    box-shadow:
+        0 20px 60px
+        rgba(255,214,0,.18),
 
-    color:#aaa;
-    text-decoration:none;
-
-    transition:.25s;
+        0 0 25px
+        rgba(255,214,0,.12);
 }
 
-.back:hover{
-    color:#fff;
-    border-color:#fff;
-}
+/* =========================
+   FOOTER
+========================= */
 
 .footer{
-    margin-top:35px;
+    margin-top:50px;
     color:#666;
     font-size:13px;
 }
 
-@media(max-width:900px){
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:1100px){
 
     .buttons{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
+
         max-width:750px;
-        margin:auto;
+    }
+
+    .menu-button{
+        min-height:210px;
+    }
+
+    .icon{
+        font-size:60px;
+    }
+
+    .button-title{
+        font-size:26px;
     }
 
 }
 
-@media(max-width:600px){
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
 
     .home{
         padding:20px 15px;
+        min-height:100vh;
     }
 
     .logo{
-        font-size:40px;
+        font-size:42px;
         letter-spacing:2px;
+        margin-bottom:8px;
     }
 
     .subtitle{
@@ -223,6 +370,10 @@ body{
         border-radius:20px;
     }
 
+    .menu-button::before{
+        border-radius:20px;
+    }
+
     .icon{
         font-size:52px;
         margin-bottom:12px;
@@ -234,107 +385,198 @@ body{
 
     .button-description{
         font-size:13px;
+        margin-top:6px;
+    }
+
+    .footer{
+        margin-top:30px;
+        font-size:11px;
     }
 
 }
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media(max-width:380px){
+
+    .logo{
+        font-size:35px;
+    }
+
+    .subtitle{
+        margin-bottom:22px;
+    }
+
+    .menu-button{
+        min-height:150px;
+    }
+
+    .icon{
+        font-size:45px;
+        margin-bottom:8px;
+    }
+
+    .button-title{
+        font-size:21px;
+    }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
 <div class="home">
 
-<div class="container">
+    <div class="container">
 
-    <div class="logo">
-        REVIEW CENTER
+        <!-- LOGO -->
+
+        <div class="logo">
+            ECHOMIX
+        </div>
+
+        <div class="subtitle">
+            Choose an application
+        </div>
+
+
+        <!-- =========================
+             BUTTONS
+        ========================= -->
+
+        <div class="buttons">
+
+
+            <!-- REVIEW CENTER -->
+
+            <a
+                href="https://echomixjstv-hash.github.io/civilservice/"
+                class="menu-button review"
+            >
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <div class="button-title">
+                    REVIEW CENTER
+                </div>
+
+                <div class="button-description">
+                    Open Review Center
+                </div>
+
+            </a>
+
+
+            <!-- HOSTING QUIZ -->
+
+            <a
+                href="https://echomixjstv-hash.github.io/quizhost/"
+                class="menu-button hosting"
+            >
+
+                <div class="icon">
+                    🖥️
+                </div>
+
+                <div class="button-title">
+                    HOST A QUIZ
+                </div>
+
+                <div class="button-description">
+                    Open Quiz Host
+                </div>
+
+            </a>
+
+
+            <!-- CONTROLLER -->
+
+            <a
+                href="https://echomixjstv-hash.github.io/quizhosting/controller.html"
+                class="menu-button controller"
+            >
+
+                <div class="icon">
+                    🎮
+                </div>
+
+                <div class="button-title">
+                    CONTROLLER
+                </div>
+
+                <div class="button-description">
+                    Open Quiz Controller
+                </div>
+
+            </a>
+
+
+            <!-- ECHOMIX VIDEOKE -->
+
+            <a
+                href="echomix videoke.html"
+                class="menu-button videoke"
+            >
+
+                <div class="icon">
+                    🎤
+                </div>
+
+                <div class="button-title">
+                    ECHOMIX VIDEOKE
+                </div>
+
+                <div class="button-description">
+                    Open EchoMix Videoke
+                </div>
+
+            </a>
+
+
+            <!-- WEBINAR -->
+
+            <a
+                href="https://echomixjstv-hash.github.io/livewebinar/"
+                class="menu-button webinar"
+            >
+
+                <div class="icon">
+                    🎥
+                </div>
+
+                <div class="button-title">
+                    WEBINAR
+                </div>
+
+                <div class="button-description">
+                    Enter Webinar for Instructions
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+            © 2026 EchoMix
+        </div>
+
     </div>
-
-    <div class="subtitle">
-        Choose a reviewer
-    </div>
-
-    <div class="buttons">
-
-        <!-- CSE REVIEWER -->
-
-        <a
-            href="https://echomixjstv-hash.github.io/civilservice/"
-            class="menu-button cse"
-        >
-
-            <div class="icon">
-                📚
-            </div>
-
-            <div class="button-title">
-                CSE REVIEWER
-            </div>
-
-            <div class="button-description">
-                Civil Service Examination
-            </div>
-
-        </a>
-
-
-        <!-- LET REVIEWER -->
-
-        <a
-            href="#"
-            class="menu-button let"
-        >
-
-            <div class="icon">
-                🎓
-            </div>
-
-            <div class="button-title">
-                LET REVIEWER
-            </div>
-
-            <div class="button-description">
-                Licensure Examination for Teachers
-            </div>
-
-        </a>
-
-
-        <!-- OTHER REVIEWERS -->
-
-        <a
-            href="#"
-            class="menu-button other"
-        >
-
-            <div class="icon">
-                📝
-            </div>
-
-            <div class="button-title">
-                OTHER REVIEWERS
-            </div>
-
-            <div class="button-description">
-                More reviewers coming soon
-            </div>
-
-        </a>
-
-    </div>
-
-    <a href="index.html" class="back">
-        ← Back to EchoMix
-    </a>
-
-    <div class="footer">
-        © 2026 EchoMix Review Center
-    </div>
-
-</div>
 
 </div>
 
 </body>
-</html>
 
+</html>
+```
