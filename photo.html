@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Echomix-2x2-Photo-Editor</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:#fff;
+    overflow:hidden;
+}
+
+
+/* =========================================================
+   PAGES
+========================================================= */
+
+.page{
+    width:100%;
+    height:100vh;
+    display:none;
+}
+
+.page.active{
+    display:flex;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+#startPage{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #292929 0%,
+            #111 65%
+        );
+}
+
+.logo{
+    font-size:42px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#00d9ff;
+}
+
+.subtitle{
+    margin-top:8px;
+    color:#999;
+    margin-bottom:40px;
+}
+
+.main-buttons{
+    display:flex;
+    gap:25px;
+}
+
+.big-btn{
+    width:260px;
+    height:130px;
+
+    border:2px solid #333;
+    border-radius:18px;
+
+    background:#202020;
+    color:white;
+
+    font-size:25px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.big-btn:hover{
+    background:#009fbe;
+    border-color:#00d9ff;
+    transform:translateY(-3px);
+}
+
+
+/* =========================================================
+   SIZE SELECT
+========================================================= */
+
+#sizePage{
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.size-title{
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:35px;
+}
+
+.size-buttons{
+    display:flex;
+    gap:25px;
+}
+
+.size-btn{
+    min-width:250px;
+    padding:25px 35px;
+
+    border:2px solid #333;
+    border-radius:15px;
+
+    background:#202020;
+    color:white;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.size-btn:hover{
+    background:#009fbe;
+    border-color:#00d9ff;
+}
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+#editorPage{
+    flex-direction:column;
+    background:#181818;
+}
+
+.topbar{
+    height:65px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 15px;
+    gap:10px;
+
+    background:#222;
+    border-bottom:1px solid #333;
+}
+
+.topbar-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-right:auto;
+}
+
+.top-btn{
+    height:40px;
+    padding:0 16px;
+
+    border:1px solid #444;
+    border-radius:7px;
+
+    background:#303030;
+    color:white;
+
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.top-btn:hover{
+    background:#444;
+}
+
+.print-btn{
+    background:#009d4d;
+    border-color:#00c968;
+}
+
+.print-btn:hover{
+    background:#00c968;
+}
+
+
+/* =========================================================
+   EDITOR BODY
+========================================================= */
+
+.editor-body{
+    flex:1;
+    min-height:0;
+    display:flex;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls{
+    width:275px;
+    flex-shrink:0;
+
+    padding:18px;
+
+    background:#202020;
+    border-right:1px solid #333;
+
+    overflow-y:auto;
+}
+
+.control-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.control-group{
+    margin-bottom:20px;
+}
+
+.control-label{
+    display:block;
+    color:#bbb;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+input[type="file"]{
+    width:100%;
+    color:#ddd;
+    font-size:12px;
+}
+
+.name-input{
+    width:100%;
+    height:40px;
+
+    padding:0 10px;
+
+    background:#111;
+    color:white;
+
+    border:1px solid #555;
+    border-radius:7px;
+
+    outline:none;
+}
+
+.name-input:focus{
+    border-color:#00c5e8;
+}
+
+.range{
+    width:100%;
+}
+
+.action-btn{
+    width:100%;
+    height:40px;
+
+    margin-bottom:10px;
+
+    background:#303030;
+    color:white;
+
+    border:1px solid #444;
+    border-radius:7px;
+
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.action-btn:hover{
+    background:#444;
+}
+
+.info{
+    color:#999;
+    font-size:12px;
+    line-height:1.5;
+}
+
+
+/* =========================================================
+   4R PREVIEW AREA
+========================================================= */
+
+.canvas-area{
+    flex:1;
+    min-width:0;
+    min-height:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:#111;
+
+    overflow:auto;
+}
+
+
+/*
+    MASTER PRINT SHEET
+
+    IMPORTANT:
+    The editor always uses exactly:
+
+    400 x 600
+
+    This is the master coordinate system.
+
+    Printing scales this entire sheet proportionally.
+*/
+
+.print-sheet{
+    position:relative;
+
+    width:400px;
+    height:600px;
+
+    flex-shrink:0;
+
+    background:white;
+
+    box-shadow:
+        0 0 0 1px #444,
+        0 15px 40px rgba(0,0,0,.7);
+
+    overflow:hidden;
+}
+
+
+/* =========================================================
+   PHOTO BOX
+========================================================= */
+
+.photo-box{
+    position:absolute;
+
+    overflow:hidden;
+
+    background:#eee;
+
+    border:1px dashed #777;
+
+    touch-action:none;
+}
+
+.photo-box.has-image{
+    cursor:grab;
+}
+
+.photo-box.dragging{
+    cursor:grabbing;
+}
+
+
+/*
+    IMAGE
+
+    All positioning is controlled by:
+
+    --x
+    --y
+    --scale
+
+    These values are also used when printing.
+*/
+
+.photo-box img{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transform:
+        translate(-50%,-50%)
+        translate(
+            calc(var(--x,0) * 1%),
+            calc(var(--y,0) * 1%)
+        )
+        scale(var(--scale,1));
+
+    transform-origin:center center;
+
+    pointer-events:none;
+
+    user-select:none;
+}
+
+
+/* =========================================================
+   PASSPORT NAME
+========================================================= */
+
+.photo-name{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:10%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:white;
+
+    color:#111;
+
+    font-size:10px;
+    font-weight:bold;
+
+    text-align:center;
+
+    overflow:hidden;
+    white-space:nowrap;
+
+    z-index:5;
+}
+
+
+/* =========================================================
+   PREVIEW LABEL
+========================================================= */
+
+.adjust-info{
+    position:fixed;
+
+    bottom:15px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:8px 15px;
+
+    background:rgba(0,0,0,.75);
+
+    border-radius:20px;
+
+    color:#ddd;
+
+    font-size:12px;
+
+    pointer-events:none;
+
+    z-index:100;
+}
+
+
+/* =========================================================
+   EMPTY BOX
+========================================================= */
+
+.empty-label{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    color:#aaa;
+
+    font-size:10px;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   MOBILE PREVIEW
+========================================================= */
+
+@media screen and (max-width:800px){
+
+    .main-buttons,
+    .size-buttons{
+        flex-direction:column;
+    }
+
+    .big-btn{
+        width:230px;
+        height:100px;
+    }
+
+    .controls{
+        width:230px;
+    }
+
+    .print-sheet{
+        width:360px;
+        height:540px;
+    }
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+/*
+    IMPORTANT PRINT DESIGN
+
+    DO NOT recreate the layout using mm.
+
+    Instead:
+
+    1. Keep the exact 400 x 600 master sheet.
+    2. Scale the WHOLE sheet to 4 x 6 inches.
+    3. Therefore every internal coordinate remains identical.
+
+    This keeps:
+      - photo position
+      - photo size
+      - zoom
+      - drag position
+      - spacing
+      - passport name
+      - layout
+
+    exactly proportional to the Editor.
+*/
+
+@media print{
+
+    html,
+    body{
+
+        width:4in !important;
+        height:6in !important;
+
+        margin:0 !important;
+        padding:0 !important;
+
+        overflow:hidden !important;
+
+        background:#fff !important;
+    }
+
+
+    /*
+       Hide everything first.
+    */
+
+    body *{
+        visibility:hidden;
+    }
+
+
+    /*
+       Show only editor.
+    */
+
+    #editorPage,
+    #editorPage *{
+        visibility:visible;
+    }
+
+
+    /*
+       Editor becomes the complete
+       4R print page.
+    */
+
+    #editorPage{
+
+        position:absolute !important;
+
+        left:0 !important;
+        top:0 !important;
+
+        width:4in !important;
+        height:6in !important;
+
+        margin:0 !important;
+        padding:0 !important;
+
+        display:block !important;
+
+        background:#fff !important;
+    }
+
+
+    /*
+       Hide editor controls.
+    */
+
+    .topbar,
+    .controls,
+    .adjust-info{
+
+        display:none !important;
+    }
+
+
+    /*
+       Remove flex layout during printing.
+    */
+
+    .editor-body{
+
+        display:block !important;
+
+        width:4in !important;
+        height:6in !important;
+
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+
+    .canvas-area{
+
+        position:absolute !important;
+
+        left:0 !important;
+        top:0 !important;
+
+        display:block !important;
+
+        width:4in !important;
+        height:6in !important;
+
+        margin:0 !important;
+        padding:0 !important;
+
+        overflow:hidden !important;
+
+        background:#fff !important;
+    }
+
+
+    /*
+       =====================================================
+       MASTER SHEET
+       =====================================================
+
+       Keep EXACTLY 400 x 600.
+
+       Then scale:
+
+       4 inches / 400 CSS pixels
+       6 inches / 600 CSS pixels
+
+       The browser prints the same coordinate system.
+    */
+
+    .print-sheet{
+
+        position:absolute !important;
+
+        left:0 !important;
+        top:0 !important;
+
+        width:400px !important;
+        height:600px !important;
+
+        margin:0 !important;
+        padding:0 !important;
+
+        box-shadow:none !important;
+
+        overflow:hidden !important;
+
+        background:#fff !important;
+
+        /*
+           96 CSS px = 1 inch.
+
+           400px / 96 = 4.1667in
+           600px / 96 = 6.25in
+
+           Scale down to exact 4 x 6 inches.
+        */
+
+        transform-origin:top left !important;
+
+        transform:scale(
+            0.96
+        ) !important;
+    }
+
+
+    /*
+       Keep photo box geometry.
+    */
+
+    .photo-box{
+
+        /*
+           Keep the same border appearance.
+        */
+
+        border:1px dashed #555 !important;
+
+        /*
+           Prevent any accidental
+           print layout changes.
+        */
+
+        box-sizing:border-box !important;
+    }
+
+
+    /*
+       Keep image transform EXACTLY
+       the same as Editor.
+    */
+
+    .photo-box img{
+
+        position:absolute !important;
+
+        left:50% !important;
+        top:50% !important;
+
+        width:100% !important;
+        height:100% !important;
+
+        object-fit:cover !important;
+
+        transform:
+            translate(-50%,-50%)
+            translate(
+                calc(var(--x,0) * 1%),
+                calc(var(--y,0) * 1%)
+            )
+            scale(var(--scale,1)) !important;
+
+        transform-origin:center center !important;
+
+        pointer-events:none !important;
+    }
+
+
+    /*
+       Passport name remains exactly
+       where it is in the Editor.
+    */
+
+    .photo-name{
+
+        position:absolute !important;
+
+        left:0 !important;
+        right:0 !important;
+        bottom:0 !important;
+
+        height:10% !important;
+
+        display:flex !important;
+
+        align-items:center !important;
+        justify-content:center !important;
+
+        background:#fff !important;
+
+        color:#111 !important;
+
+        z-index:5 !important;
+    }
+
+
+    /*
+       Empty PHOTO text should not print.
+    */
+
+    .empty-label{
+        display:none !important;
+    }
+
+
+    /*
+       EXACT 4R PAPER
+    */
+
+    @page{
+
+        size:4in 6in;
+
+        margin:0 !important;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HOME PAGE
+========================================================= -->
+
+<section
+    id="startPage"
+    class="page active"
+>
+
+    <div class="logo">
+        Echomix <span>2x2 Photo Editor</span>
+    </div>
+
+    <div class="subtitle">
+        4R Photo Printing System
+    </div>
+
+    <div class="main-buttons">
+
+        <button
+            class="big-btn"
+            onclick="open2x2()"
+        >
+            📷<br>
+            2x2 Photo
+        </button>
+
+        <button
+            class="big-btn"
+            onclick="open1x1()"
+        >
+            🖼️<br>
+            1x1 Photo
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SIZE SELECT
+========================================================= -->
+
+<section
+    id="sizePage"
+    class="page"
+>
+
+    <div class="size-title">
+        Select Photo Size
+    </div>
+
+    <div class="size-buttons">
+
+        <button
+            class="size-btn"
+            onclick="openEditor('2x2')"
+        >
+            📷 2x2 Size
+        </button>
+
+        <button
+            class="size-btn"
+            onclick="openEditor('passport')"
+        >
+            🪪 Passport Size
+        </button>
+
+    </div>
+
+    <br>
+
+    <button
+        class="top-btn"
+        onclick="goHome()"
+    >
+        ← Back
+    </button>
+
+</section>
+
+
+<!-- =========================================================
+     EDITOR
+========================================================= -->
+
+<section
+    id="editorPage"
+    class="page"
+>
+
+    <div class="topbar">
+
+        <div
+            class="topbar-title"
+            id="editorTitle"
+        >
+            Echomix Photo Editor
+        </div>
+
+        <button
+            class="top-btn"
+            onclick="goHome()"
+        >
+            ← Home
+        </button>
+
+        <button
+            class="top-btn"
+            onclick="resetPhoto()"
+        >
+            Reset
+        </button>
+
+        <button
+            class="top-btn print-btn"
+            onclick="printPhoto()"
+        >
+            🖨 PRINT
+        </button>
+
+    </div>
+
+
+    <div class="editor-body">
+
+
+        <!-- =================================================
+             LEFT CONTROL PANEL
+        ================================================= -->
+
+        <aside class="controls">
+
+            <div class="control-title">
+                Photo Controls
+            </div>
+
+
+            <div class="control-group">
+
+                <label class="control-label">
+                    Upload Photo
+                </label>
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <!-- PASSPORT NAME -->
+
+            <div
+                class="control-group"
+                id="nameGroup"
+                style="display:none;"
+            >
+
+                <label class="control-label">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="nameInput"
+                    class="name-input"
+                    placeholder="Enter name"
+                >
+
+            </div>
+
+
+            <!-- ZOOM -->
+
+            <div class="control-group">
+
+                <label class="control-label">
+                    Zoom
+                </label>
+
+                <input
+                    type="range"
+                    id="zoomRange"
+                    class="range"
+                    min="0.5"
+                    max="3"
+                    step="0.01"
+                    value="1"
+                >
+
+            </div>
+
+
+            <div class="control-group">
+
+                <button
+                    class="action-btn"
+                    onclick="centerPhoto()"
+                >
+                    Center Photo
+                </button>
+
+                <button
+                    class="action-btn"
+                    onclick="fitPhoto()"
+                >
+                    Fit Photo
+                </button>
+
+            </div>
+
+
+            <div class="info">
+
+                <b>Instructions</b>
+
+                <br><br>
+
+                Upload your photo.
+
+                <br><br>
+
+                The photo will automatically
+                appear in all photo boxes.
+
+                <br><br>
+
+                Use the <b>Zoom</b> slider to
+                adjust the size.
+
+                <br><br>
+
+                Drag the photo inside a box
+                to adjust its position.
+
+                <br><br>
+
+                All copies use the same
+                adjustment.
+
+                <br><br>
+
+                For passport photos,
+                enter the name.
+
+                <br><br>
+
+                The preview and print
+                use the same 4R layout.
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             4R PREVIEW
+        ================================================= -->
+
+        <main class="canvas-area">
+
+            <div
+                class="print-sheet"
+                id="printSheet"
+            ></div>
+
+        </main>
+
+    </div>
+
+
+    <div class="adjust-info">
+        Drag photo • Use Zoom to adjust
+    </div>
+
+</section>
+
+
+
+<script>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let currentMode = null;
+
+let photoURL = null;
+
+let photoState = {
+
+    x:0,
+    y:0,
+    scale:1
+
+};
+
+let activeDrag = null;
+
+
+/* =========================================================
+   PAGE CONTROL
+========================================================= */
+
+function hidePages(){
+
+    document
+        .querySelectorAll('.page')
+        .forEach(page => {
+
+            page.classList.remove('active');
+
+        });
+
+}
+
+
+function goHome(){
+
+    hidePages();
+
+    document
+        .getElementById('startPage')
+        .classList.add('active');
+
+    currentMode = null;
+
+}
+
+
+function open2x2(){
+
+    hidePages();
+
+    document
+        .getElementById('sizePage')
+        .classList.add('active');
+
+}
+
+
+function open1x1(){
+
+    openEditor('1x1');
+
+}
+
+
+/* =========================================================
+   OPEN EDITOR
+========================================================= */
+
+function openEditor(mode){
+
+    currentMode = mode;
+
+    hidePages();
+
+    document
+        .getElementById('editorPage')
+        .classList.add('active');
+
+    createLayout();
+
+}
+
+
+/* =========================================================
+   CREATE LAYOUT
+========================================================= */
+
+function createLayout(){
+
+    const sheet =
+        document.getElementById('printSheet');
+
+    const title =
+        document.getElementById('editorTitle');
+
+    const nameGroup =
+        document.getElementById('nameGroup');
+
+
+    sheet.innerHTML = '';
+
+
+    photoState = {
+
+        x:0,
+        y:0,
+        scale:1
+
+    };
+
+
+    document
+        .getElementById('zoomRange')
+        .value = 1;
+
+
+    if(currentMode === '2x2'){
+
+        title.textContent =
+            'Echomix 2x2 Photo Editor';
+
+        nameGroup.style.display =
+            'none';
+
+        create2x2Layout();
+
+    }
+
+
+    else if(currentMode === '1x1'){
+
+        title.textContent =
+            'Echomix 1x1 Photo Editor';
+
+        nameGroup.style.display =
+            'none';
+
+        create1x1Layout();
+
+    }
+
+
+    else if(currentMode === 'passport'){
+
+        title.textContent =
+            'Echomix Passport Photo Editor';
+
+        nameGroup.style.display =
+            'block';
+
+        createPassportLayout();
+
+    }
+
+}
+
+
+/* =========================================================
+   ADD PHOTO BOX
+========================================================= */
+
+function makeBox(
+    left,
+    top,
+    width,
+    height,
+    passport = false
+){
+
+    const box =
+        document.createElement('div');
+
+    box.className =
+        'photo-box';
+
+
+    box.style.left =
+        left + 'px';
+
+    box.style.top =
+        top + 'px';
+
+    box.style.width =
+        width + 'px';
+
+    box.style.height =
+        height + 'px';
+
+
+    box.dataset.passport =
+        passport ? 'true' : 'false';
+
+
+    /*
+       Existing uploaded photo
+    */
+
+    if(photoURL){
+
+        addImage(box);
+
+    }
+
+    else{
+
+        const empty =
+            document.createElement('div');
+
+        empty.className =
+            'empty-label';
+
+        empty.textContent =
+            'PHOTO';
+
+        box.appendChild(empty);
+
+    }
+
+
+    /*
+       Passport name
+    */
+
+    if(passport){
+
+        const name =
+            document.createElement('div');
+
+        name.className =
+            'photo-name';
+
+        name.textContent =
+            document
+                .getElementById('nameInput')
+                .value || '';
+
+        box.appendChild(name);
+
+    }
+
+
+    enableDragging(box);
+
+    return box;
+
+}
+
+
+/* =========================================================
+   2x2 LAYOUT
+========================================================= */
+
+/*
+    4R preview:
+
+    400 x 600
+
+    2x2 photos:
+
+    200 x 200 each
+
+    2 columns
+    3 rows
+
+    Total:
+    6 photos
+*/
+
+function create2x2Layout(){
+
+    const sheet =
+        document.getElementById('printSheet');
+
+
+    const boxWidth = 200;
+
+    const boxHeight = 200;
+
+
+    const totalWidth =
+        boxWidth * 2;
+
+    const totalHeight =
+        boxHeight * 3;
+
+
+    const left =
+        (400 - totalWidth) / 2;
+
+    const top =
+        (600 - totalHeight) / 2;
+
+
+    for(let i = 0; i < 6; i++){
+
+        const row =
+            Math.floor(i / 2);
+
+        const col =
+            i % 2;
+
+
+        const box =
+            makeBox(
+
+                left +
+                col * boxWidth,
+
+                top +
+                row * boxHeight,
+
+                boxWidth,
+                boxHeight
+
+            );
+
+
+        sheet.appendChild(box);
+
+    }
+
+}
+
+
+/* =========================================================
+   1x1 LAYOUT
+========================================================= */
+
+/*
+    1x1 inch:
+
+    4 columns
+    6 rows
+
+    24 photos
+*/
+
+function create1x1Layout(){
+
+    const sheet =
+        document.getElementById('printSheet');
+
+
+    const boxWidth = 100;
+
+    const boxHeight = 100;
+
+
+    for(let i = 0; i < 24; i++){
+
+        const row =
+            Math.floor(i / 4);
+
+        const col =
+            i % 4;
+
+
+        const box =
+            makeBox(
+
+                col * boxWidth,
+
+                row * boxHeight,
+
+                boxWidth,
+                boxHeight
+
+            );
+
+
+        sheet.appendChild(box);
+
+    }
+
+}
+
+
+/* =========================================================
+   PASSPORT LAYOUT
+========================================================= */
+
+/*
+    Passport photo:
+
+    35mm x 45mm
+
+    Preview conversion:
+
+    1mm = 3.937007874px
+
+    Photo:
+    35mm = 137.795px
+    45mm = 177.165px
+
+    Box including name:
+    50mm = 196.85px
+
+    2 columns
+    3 rows
+
+    6 photos
+*/
+
+function createPassportLayout(){
+
+    const sheet =
+        document.getElementById('printSheet');
+
+
+    const MM =
+        3.937007874;
+
+
+    const boxWidth =
+        35 * MM;
+
+    const boxHeight =
+        50 * MM;
+
+
+    const gapX =
+        3.5 * MM;
+
+    const gapY = 0;
+
+
+    const totalWidth =
+        boxWidth * 2 +
+        gapX;
+
+    const totalHeight =
+        boxHeight * 3 +
+        gapY * 2;
+
+
+    const left =
+        (400 - totalWidth) / 2;
+
+    const top =
+        (600 - totalHeight) / 2;
+
+
+    for(let i = 0; i < 6; i++){
+
+        const row =
+            Math.floor(i / 2);
+
+        const col =
+            i % 2;
+
+
+        const box =
+            makeBox(
+
+                left +
+                col *
+                (boxWidth + gapX),
+
+                top +
+                row *
+                (boxHeight + gapY),
+
+                boxWidth,
+                boxHeight,
+
+                true
+
+            );
+
+
+        /*
+           Photo portion is 45mm.
+
+           Name occupies the remaining
+           portion at the bottom.
+        */
+
+        const photoHeight =
+            45 * MM;
+
+
+        box.style.setProperty(
+            '--photo-height',
+            photoHeight + 'px'
+        );
+
+
+        const img =
+            box.querySelector('img');
+
+
+        if(img){
+
+            img.style.height =
+                photoHeight + 'px';
+
+        }
+
+
+        sheet.appendChild(box);
+
+    }
+
+}
+
+
+/* =========================================================
+   ADD IMAGE
+========================================================= */
+
+function addImage(box){
+
+    const empty =
+        box.querySelector('.empty-label');
+
+
+    if(empty){
+
+        empty.remove();
+
+    }
+
+
+    const old =
+        box.querySelector('img');
+
+
+    if(old){
+
+        old.remove();
+
+    }
+
+
+    const img =
+        document.createElement('img');
+
+
+    img.src =
+        photoURL;
+
+
+    img.draggable = false;
+
+
+    img.style.setProperty(
+        '--x',
+        photoState.x
+    );
+
+    img.style.setProperty(
+        '--y',
+        photoState.y
+    );
+
+    img.style.setProperty(
+        '--scale',
+        photoState.scale
+    );
+
+
+    /*
+       Passport image
+    */
+
+    if(box.dataset.passport === 'true'){
+
+        img.style.height =
+            '90%';
+
+    }
+
+
+    box.insertBefore(
+        img,
+        box.firstChild
+    );
+
+
+    box.classList.add(
+        'has-image'
+    );
+
+}
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+document
+    .getElementById('photoInput')
+    .addEventListener(
+        'change',
+        function(e){
+
+            const file =
+                e.target.files[0];
+
+
+            if(!file){
+
+                return;
+
+            }
+
+
+            if(
+                !file.type.startsWith(
+                    'image/'
+                )
+            ){
+
+                alert(
+                    'Please select an image file.'
+                );
+
+                return;
+
+            }
+
+
+            if(photoURL){
+
+                URL.revokeObjectURL(
+                    photoURL
+                );
+
+            }
+
+
+            photoURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            photoState = {
+
+                x:0,
+                y:0,
+                scale:1
+
+            };
+
+
+            document
+                .getElementById(
+                    'zoomRange'
+                )
+                .value = 1;
+
+
+            refreshPhotos();
+
+        }
+    );
+
+
+/* =========================================================
+   REFRESH ALL PHOTOS
+========================================================= */
+
+function refreshPhotos(){
+
+    document
+        .querySelectorAll('.photo-box')
+        .forEach(box => {
+
+            addImage(box);
+
+        });
+
+}
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+document
+    .getElementById('zoomRange')
+    .addEventListener(
+        'input',
+        function(){
+
+            photoState.scale =
+                parseFloat(this.value);
+
+            updateImagePosition();
+
+        }
+    );
+
+
+/* =========================================================
+   UPDATE IMAGE POSITION
+========================================================= */
+
+function updateImagePosition(){
+
+    document
+        .querySelectorAll(
+            '.photo-box img'
+        )
+        .forEach(img => {
+
+            img.style.setProperty(
+                '--x',
+                photoState.x
+            );
+
+            img.style.setProperty(
+                '--y',
+                photoState.y
+            );
+
+            img.style.setProperty(
+                '--scale',
+                photoState.scale
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   CENTER
+========================================================= */
+
+function centerPhoto(){
+
+    photoState.x = 0;
+
+    photoState.y = 0;
+
+    updateImagePosition();
+
+}
+
+
+/* =========================================================
+   FIT
+========================================================= */
+
+function fitPhoto(){
+
+    photoState.x = 0;
+
+    photoState.y = 0;
+
+    photoState.scale = 1;
+
+
+    document
+        .getElementById('zoomRange')
+        .value = 1;
+
+
+    updateImagePosition();
+
+}
+
+
+/* =========================================================
+   DRAG PHOTO
+========================================================= */
+
+function enableDragging(box){
+
+    let startX = 0;
+
+    let startY = 0;
+
+
+    box.addEventListener(
+        'pointerdown',
+        function(e){
+
+            if(!photoURL){
+
+                return;
+
+            }
+
+
+            activeDrag = box;
+
+
+            box.classList.add(
+                'dragging'
+            );
+
+
+            startX =
+                e.clientX;
+
+            startY =
+                e.clientY;
+
+
+            box.setPointerCapture(
+                e.pointerId
+            );
+
+        }
+    );
+
+
+    box.addEventListener(
+        'pointermove',
+        function(e){
+
+            if(activeDrag !== box){
+
+                return;
+
+            }
+
+
+            const dx =
+                e.clientX - startX;
+
+            const dy =
+                e.clientY - startY;
+
+
+            const width =
+                box.offsetWidth;
+
+            const height =
+                box.offsetHeight;
+
+
+            /*
+               Same percentage coordinate
+               system used by preview and print.
+            */
+
+            photoState.x +=
+                (dx / width) * 100;
+
+            photoState.y +=
+                (dy / height) * 100;
+
+
+            startX =
+                e.clientX;
+
+            startY =
+                e.clientY;
+
+
+            updateImagePosition();
+
+        }
+    );
+
+
+    box.addEventListener(
+        'pointerup',
+        function(){
+
+            activeDrag = null;
+
+            box.classList.remove(
+                'dragging'
+            );
+
+        }
+    );
+
+
+    box.addEventListener(
+        'pointercancel',
+        function(){
+
+            activeDrag = null;
+
+            box.classList.remove(
+                'dragging'
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+document
+    .getElementById('nameInput')
+    .addEventListener(
+        'input',
+        updateNames
+    );
+
+
+function updateNames(){
+
+    const name =
+        document
+            .getElementById(
+                'nameInput'
+            )
+            .value;
+
+
+    document
+        .querySelectorAll(
+            '.photo-name'
+        )
+        .forEach(element => {
+
+            element.textContent =
+                name;
+
+        });
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetPhoto(){
+
+    photoState = {
+
+        x:0,
+        y:0,
+        scale:1
+
+    };
+
+
+    document
+        .getElementById(
+            'zoomRange'
+        )
+        .value = 1;
+
+
+    updateImagePosition();
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+function printPhoto(){
+
+    if(!photoURL){
+
+        alert(
+            'Please upload a photo first.'
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Browser print dialog.
+
+       The print CSS keeps the same
+       400x600 master layout and scales
+       the complete sheet to 4x6 inches.
+    */
+
+    window.print();
+
+}
+
+
+/* =========================================================
+   ESC KEY
+========================================================= */
+
+document.addEventListener(
+    'keydown',
+    function(e){
+
+        if(e.key === 'Escape'){
+
+            const editor =
+                document.getElementById(
+                    'editorPage'
+                );
+
+
+            if(
+                editor.classList.contains(
+                    'active'
+                )
+            ){
+
+                goHome();
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
