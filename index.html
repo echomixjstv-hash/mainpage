@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -6,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>EchoMix</title>
+<title>EchoMix App Store</title>
 
 <style>
 
@@ -21,282 +22,391 @@ body{
     width:100%;
     min-height:100%;
     font-family:Arial,Helvetica,sans-serif;
-    background:#080808;
-    color:#fff;
+    background:#f5f5f5;
+    color:#202124;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    width:100%;
+    background:#ffffff;
+    border-bottom:1px solid #ddd;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.header-inner{
+    max-width:1250px;
+    margin:auto;
+
+    height:80px;
+
+    display:flex;
+    align-items:center;
+    gap:30px;
+
+    padding:0 25px;
+}
+
+/* LOGO */
+
+.logo{
+    font-size:30px;
+    font-weight:900;
+    letter-spacing:2px;
+
+    white-space:nowrap;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00b86b,
+            #00a9d9,
+            #7655e8,
+            #e500a8
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+}
+
+/* SEARCH */
+
+.search-container{
+    flex:1;
+    max-width:650px;
+}
+
+.search-box{
+    width:100%;
+    height:50px;
+
+    display:flex;
+    align-items:center;
+
+    background:#f1f3f4;
+
+    border-radius:28px;
+
+    padding:0 20px;
+
+    transition:.2s;
+
+    border:2px solid transparent;
+}
+
+.search-box:focus-within{
+    background:#fff;
+    border-color:#00a878;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+
+.search-icon{
+    font-size:22px;
+    margin-right:12px;
+    color:#666;
+}
+
+#search{
+    width:100%;
+    height:100%;
+
+    border:none;
+    outline:none;
+
+    background:transparent;
+
+    font-size:17px;
+    color:#222;
 }
 
 /* =========================
    MAIN
 ========================= */
 
-.home{
-    min-height:100vh;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:30px;
-
-    background:
-        radial-gradient(
-            circle at 50% 35%,
-            #222 0%,
-            #0b0b0b 45%,
-            #050505 100%
-        );
-}
-
-/* =========================
-   CONTAINER
-========================= */
-
-.container{
-    width:100%;
-    max-width:1200px;
-    text-align:center;
-}
-
-/* =========================
-   LOGO
-========================= */
-
-.logo{
-    font-size:clamp(42px,7vw,90px);
-    font-weight:900;
-    letter-spacing:4px;
-
-    margin-bottom:10px;
-
-    text-transform:uppercase;
-
-    background:
-        linear-gradient(
-            90deg,
-            #00ff88,
-            #00d9ff,
-            #8b5cff,
-            #ff00cc
-        );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-
-    filter:
-        drop-shadow(
-            0 0 15px
-            rgba(0,255,150,.25)
-        );
-}
-
-.subtitle{
-    font-size:clamp(15px,2vw,22px);
-    color:#aaa;
-    margin-bottom:50px;
-}
-
-/* =========================
-   BUTTON AREA
-========================= */
-
-.buttons{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:25px;
-
-    width:100%;
-    max-width:1100px;
-
+.main{
+    max-width:1250px;
     margin:auto;
-}
 
-/* =========================
-   BUTTON
-========================= */
-
-.menu-button{
-    position:relative;
-
-    min-height:230px;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    text-decoration:none;
-    color:white;
-
-    border:2px solid #333;
-    border-radius:25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.02)
-        );
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.5),
-        inset 0 1px 0
-        rgba(255,255,255,.08);
-
-    transition:
-        transform .25s ease,
-        border-color .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
-
-    overflow:hidden;
-}
-
-.menu-button::before{
-    content:"";
-
-    position:absolute;
-    inset:-2px;
-
-    border-radius:25px;
-
-    background:
-        linear-gradient(
-            120deg,
-            transparent,
-            rgba(255,255,255,.15),
-            transparent
-        );
-
-    opacity:0;
-
-    transition:.3s;
-}
-
-.menu-button:hover{
-    transform:
-        translateY(-8px)
-        scale(1.02);
-}
-
-.menu-button:hover::before{
-    opacity:1;
-}
-
-/* =========================
-   ICON
-========================= */
-
-.icon{
-    font-size:70px;
-    margin-bottom:20px;
-
-    position:relative;
-    z-index:1;
+    padding:35px 25px 50px;
 }
 
 /* =========================
    TITLE
 ========================= */
 
-.button-title{
+.page-title{
     font-size:30px;
-    font-weight:800;
+    font-weight:700;
 
+    margin-bottom:8px;
+}
+
+.page-subtitle{
+    color:#666;
+    font-size:15px;
+
+    margin-bottom:30px;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category-bar{
+    display:flex;
+    gap:10px;
+
+    overflow-x:auto;
+
+    margin-bottom:25px;
+
+    padding-bottom:5px;
+}
+
+.category{
+    border:none;
+
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:20px;
+
+    padding:9px 18px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:.2s;
+}
+
+.category:hover{
+    background:#f0f0f0;
+}
+
+.category.active{
+    background:#202124;
+    color:white;
+    border-color:#202124;
+}
+
+/* =========================
+   APP GRID
+========================= */
+
+.apps{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:20px;
+}
+
+/* =========================
+   APP CARD
+========================= */
+
+.app-card{
     position:relative;
-    z-index:1;
+
+    min-height:285px;
+
+    background:#fff;
+
+    border:1px solid #e1e1e1;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    text-decoration:none;
+
+    color:#202124;
+
+    display:flex;
+    flex-direction:column;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+
+    overflow:hidden;
+}
+
+.app-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.12);
+
+    border-color:#ccc;
+}
+
+/* =========================
+   APP ICON
+========================= */
+
+.app-icon{
+    width:78px;
+    height:78px;
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:43px;
+
+    margin-bottom:18px;
+
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.12);
+}
+
+/* ICON BACKGROUNDS */
+
+.cpp-icon{
+    background:linear-gradient(135deg,#1b1b1b,#4b4b4b);
+}
+
+.photo-icon{
+    background:linear-gradient(135deg,#1976d2,#64b5f6);
+}
+
+.review-icon{
+    background:linear-gradient(135deg,#ff6b00,#ff9d42);
+}
+
+.host-icon{
+    background:linear-gradient(135deg,#00a86b,#54d69c);
+}
+
+.controller-icon{
+    background:linear-gradient(135deg,#008fc4,#00d9ff);
+}
+
+.videoke-icon{
+    background:linear-gradient(135deg,#d000a5,#ff45d0);
+}
+
+.webinar-icon{
+    background:linear-gradient(135deg,#e2b900,#ffe45e);
+}
+
+/* =========================
+   APP NAME
+========================= */
+
+.app-name{
+    font-size:21px;
+    font-weight:700;
+
+    line-height:1.25;
+
+    margin-bottom:8px;
 }
 
 /* =========================
    DESCRIPTION
 ========================= */
 
-.button-description{
-    margin-top:8px;
+.app-description{
+    font-size:14px;
 
-    font-size:15px;
-    color:#999;
+    line-height:1.5;
 
-    position:relative;
-    z-index:1;
+    color:#6b6b6b;
+
+    margin-bottom:auto;
 }
 
 /* =========================
-   REVIEW CENTER
+   OPEN BUTTON
 ========================= */
 
-.review:hover{
-    border-color:#ff6b00;
+.open-button{
+    display:inline-block;
 
-    box-shadow:
-        0 20px 60px
-        rgba(255,107,0,.18),
+    margin-top:18px;
 
-        0 0 25px
-        rgba(255,107,0,.12);
+    color:#087f5b;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    padding:9px 15px;
+
+    border-radius:20px;
+
+    background:#e6f4ef;
+
+    width:max-content;
 }
 
 /* =========================
-   HOSTING QUIZ
+   NEW BADGE
 ========================= */
 
-.hosting:hover{
-    border-color:#00ff88;
+.new-badge{
+    position:absolute;
+
+    top:15px;
+    right:15px;
+
+    background:#e91e63;
+
+    color:white;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    letter-spacing:.7px;
 
     box-shadow:
-        0 20px 60px
-        rgba(0,255,136,.18),
-
-        0 0 25px
-        rgba(0,255,136,.15);
+        0 3px 8px
+        rgba(233,30,99,.25);
 }
 
 /* =========================
-   CONTROLLER
+   NO RESULTS
 ========================= */
 
-.controller:hover{
-    border-color:#00d9ff;
+.no-results{
+    display:none;
 
-    box-shadow:
-        0 20px 60px
-        rgba(0,217,255,.18),
+    text-align:center;
 
-        0 0 25px
-        rgba(0,217,255,.12);
+    padding:80px 20px;
+
+    color:#777;
+
+    font-size:18px;
 }
 
-/* =========================
-   VIDEOKE
-========================= */
-
-.videoke:hover{
-    border-color:#ff00cc;
-
-    box-shadow:
-        0 20px 60px
-        rgba(255,0,204,.18),
-
-        0 0 25px
-        rgba(255,0,204,.12);
-}
-
-/* =========================
-   WEBINAR
-========================= */
-
-.webinar:hover{
-    border-color:#ffd600;
-
-    box-shadow:
-        0 20px 60px
-        rgba(255,214,0,.18),
-
-        0 0 25px
-        rgba(255,214,0,.12);
+.no-results-icon{
+    font-size:55px;
+    margin-bottom:15px;
 }
 
 /* =========================
@@ -304,34 +414,58 @@ body{
 ========================= */
 
 .footer{
-    margin-top:50px;
-    color:#666;
+    text-align:center;
+
+    color:#888;
+
     font-size:13px;
+
+    padding:20px;
 }
 
 /* =========================
    TABLET
 ========================= */
 
-@media(max-width:1100px){
+@media(max-width:1050px){
 
-    .buttons{
+    .apps{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+}
+
+/* =========================
+   SMALL TABLET
+========================= */
+
+@media(max-width:800px){
+
+    .header-inner{
+        height:auto;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:15px;
+
+        padding:15px 20px;
+    }
+
+    .logo{
+        text-align:center;
+        font-size:27px;
+    }
+
+    .search-container{
+        max-width:none;
+    }
+
+    .apps{
         grid-template-columns:
             repeat(2,1fr);
-
-        max-width:750px;
-    }
-
-    .menu-button{
-        min-height:210px;
-    }
-
-    .icon{
-        font-size:60px;
-    }
-
-    .button-title{
-        font-size:26px;
     }
 
 }
@@ -340,319 +474,563 @@ body{
    MOBILE
 ========================= */
 
-@media(max-width:700px){
+@media(max-width:560px){
 
-    .home{
-        padding:20px 15px;
-        min-height:100vh;
+    .main{
+        padding:
+            25px 15px
+            40px;
     }
 
-    .logo{
-        font-size:42px;
-        letter-spacing:2px;
-        margin-bottom:8px;
+    .page-title{
+        font-size:25px;
     }
 
-    .subtitle{
-        font-size:14px;
-        margin-bottom:30px;
-    }
-
-    .buttons{
+    .apps{
         grid-template-columns:1fr;
-        gap:18px;
-        max-width:420px;
+
+        gap:15px;
     }
 
-    .menu-button{
-        min-height:175px;
-        border-radius:20px;
+    .app-card{
+        min-height:200px;
+
+        display:grid;
+
+        grid-template-columns:
+            75px 1fr;
+
+        grid-template-rows:
+            auto auto auto;
+
+        column-gap:17px;
+
+        padding:18px;
     }
 
-    .menu-button::before{
-        border-radius:20px;
+    .app-icon{
+        width:70px;
+        height:70px;
+
+        grid-row:1 / 4;
+
+        margin-bottom:0;
+
+        font-size:38px;
     }
 
-    .icon{
-        font-size:52px;
-        margin-bottom:12px;
+    .app-name{
+        font-size:19px;
+        margin-bottom:5px;
     }
 
-    .button-title{
-        font-size:24px;
-    }
-
-    .button-description{
+    .app-description{
         font-size:13px;
-        margin-top:6px;
     }
 
-    .footer{
-        margin-top:30px;
-        font-size:11px;
+    .open-button{
+        margin-top:10px;
+    }
+
+    .new-badge{
+        top:10px;
+        right:10px;
     }
 
 }
 
 /* =========================
-   SMALL PHONES
+   VERY SMALL
 ========================= */
 
 @media(max-width:380px){
 
     .logo{
-        font-size:35px;
+        font-size:24px;
     }
 
-    .subtitle{
-        margin-bottom:22px;
+    .search-box{
+        height:45px;
     }
 
-    .menu-button{
-        min-height:150px;
+    #search{
+        font-size:15px;
     }
 
-    .icon{
-        font-size:45px;
-        margin-bottom:8px;
-    }
-
-    .button-title{
-        font-size:21px;
-    }
-
-}
-    /* =========================
-   NEW BADGE
-========================= */
-
-.new-badge{
-    position:absolute;
-
-    top:12px;
-    right:18px;
-
-    background:#ff2020;
-    color:white;
-
-    padding:7px 18px;
-
-    border-radius:999px;
-
-    font-size:14px;
-    font-weight:900;
-
-    letter-spacing:1px;
-
-    box-shadow:
-        0 4px 12px rgba(255,0,0,.35);
-
-    z-index:5;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
-<div class="home">
-
-    <div class="container">
-
-        <!-- LOGO -->
-
-        <div class="logo">
-            ECHOMIX
-        </div>
-
-        <div class="subtitle">
-            Choose an application
-        </div>
-
-
-        <!-- =========================
-             BUTTONS
-        ========================= -->
-          <!-- =========================
-     BUTTONS
+<!-- =========================
+     HEADER
 ========================= -->
 
-<div class="buttons">
+<header class="header">
+
+```
+<div class="header-inner">
+
+    <div class="logo">
+        ECHOMIX
+    </div>
+
+    <div class="search-container">
+
+        <div class="search-box">
+
+            <div class="search-icon">
+                🔍
+            </div>
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search apps..."
+                autocomplete="off"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</header>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+```
+<div class="page-title">
+    EchoMix Apps
+</div>
+
+<div class="page-subtitle">
+    Discover and open EchoMix applications
+</div>
+
+
+<!-- CATEGORY -->
+
+<div class="category-bar">
+
+    <button
+        class="category active"
+        data-category="all"
+    >
+        All
+    </button>
+
+    <button
+        class="category"
+        data-category="education"
+    >
+        Education
+    </button>
+
+    <button
+        class="category"
+        data-category="tools"
+    >
+        Tools
+    </button>
+
+    <button
+        class="category"
+        data-category="entertainment"
+    >
+        Entertainment
+    </button>
+
+    <button
+        class="category"
+        data-category="web"
+    >
+        Web Apps
+    </button>
+
+</div>
+
+
+
+<!-- =========================
+     APPS
+========================= -->
+
+<div class="apps" id="apps">
+
+
     <!-- C++ -->
 
     <a
         href="https://echomixjstv-hash.github.io/c-/"
-        class="menu-button photo-editor"
+        class="app-card"
+        data-name="C++"
+        data-category="tools"
     >
 
         <div class="new-badge">
             NEW
         </div>
 
-        <div class="icon">
+        <div class="app-icon cpp-icon">
             💻
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             C++
         </div>
 
-        <div class="button-description">
-            Open C++ and download codes for your board
+        <div class="app-description">
+            Open C++ and download codes for your Arduino and ESP boards.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
+
 
 
     <!-- PHOTO EDITOR -->
 
     <a
         href="photo.html"
-        class="menu-button photo-editor"
+        class="app-card"
+        data-name="2x2 Photo Print Editor"
+        data-category="tools"
     >
 
         <div class="new-badge">
             NEW
         </div>
 
-        <div class="icon">
+        <div class="app-icon photo-icon">
             🖼️
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             2x2 Photo Print Editor
         </div>
 
-        <div class="button-description">
-            Open 2x2 Photo Print and Editor
+        <div class="app-description">
+            Create, edit and prepare 2x2 photos for printing.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
+
 
 
     <!-- REVIEW CENTER -->
 
     <a
         href="https://echomixjstv-hash.github.io/review-center/"
-        class="menu-button review"
+        class="app-card"
+        data-name="Review Center"
+        data-category="education"
     >
 
-        <div class="icon">
+        <div class="app-icon review-icon">
             📚
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             REVIEW CENTER
         </div>
 
-        <div class="button-description">
-            Open Review Center
+        <div class="app-description">
+            Review and practice with different examination materials.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
 
 
-    <!-- HOSTING QUIZ -->
+
+    <!-- HOST QUIZ -->
 
     <a
         href="https://echomixjstv-hash.github.io/quizhost/"
-        class="menu-button hosting"
+        class="app-card"
+        data-name="Host a Quiz Quiz Host"
+        data-category="education"
     >
 
-        <div class="icon">
+        <div class="app-icon host-icon">
             🖥️
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             HOST A QUIZ
         </div>
 
-        <div class="button-description">
-            Open Quiz Host
+        <div class="app-description">
+            Host an interactive quiz and manage questions and players.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
+
 
 
     <!-- CONTROLLER -->
 
     <a
         href="https://echomixjstv-hash.github.io/quizhosting/controller.html"
-        class="menu-button controller"
+        class="app-card"
+        data-name="Controller Quiz Controller"
+        data-category="web"
     >
 
-        <div class="icon">
+        <div class="app-icon controller-icon">
             🎮
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             CONTROLLER
         </div>
 
-        <div class="button-description">
-            Open Quiz Controller
+        <div class="app-description">
+            Use your device as a remote controller for the EchoMix Quiz.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
 
 
-    <!-- ECHOMIX VIDEOKE -->
+
+    <!-- VIDEOKE -->
 
     <a
         href="echomix videoke.html"
-        class="menu-button videoke"
+        class="app-card"
+        data-name="EchoMix Videoke Karaoke"
+        data-category="entertainment"
     >
 
-        <div class="icon">
+        <div class="app-icon videoke-icon">
             🎤
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             ECHOMIX VIDEOKE
         </div>
 
-        <div class="button-description">
-            Open EchoMix Videoke
+        <div class="app-description">
+            Open EchoMix Videoke and enjoy your karaoke experience.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
+
 
 
     <!-- WEBINAR -->
 
     <a
         href="https://echomixjstv-hash.github.io/livewebinar/"
-        class="menu-button webinar"
+        class="app-card"
+        data-name="Webinar"
+        data-category="web"
     >
 
-        <div class="icon">
+        <div class="app-icon webinar-icon">
             🎥
         </div>
 
-        <div class="button-title">
+        <div class="app-name">
             WEBINAR
         </div>
 
-        <div class="button-description">
-            Enter Webinar for Instructions
+        <div class="app-description">
+            Enter the webinar for instructions and important information.
+        </div>
+
+        <div class="open-button">
+            Open
         </div>
 
     </a>
 
+
 </div>
 
 
-        <!-- FOOTER -->
 
-        <div class="footer">
-            © 2026 EchoMix
-        </div>
+<!-- NO SEARCH RESULTS -->
 
+<div
+    class="no-results"
+    id="noResults"
+>
+
+    <div class="no-results-icon">
+        🔍
+    </div>
+
+    <div>
+        No apps found
     </div>
 
 </div>
+```
+
+</main>
+
+<!-- FOOTER -->
+
+<div class="footer">
+    © 2026 EchoMix
+</div>
+
+<!-- =========================
+     SEARCH + CATEGORY SCRIPT
+========================= -->
+
+<script>
+
+const searchInput =
+    document.getElementById("search");
+
+const appCards =
+    document.querySelectorAll(".app-card");
+
+const noResults =
+    document.getElementById("noResults");
+
+const categoryButtons =
+    document.querySelectorAll(".category");
+
+
+let currentCategory = "all";
+
+
+function filterApps(){
+
+    const search =
+        searchInput.value
+            .toLowerCase()
+            .trim();
+
+    let visibleCount = 0;
+
+
+    appCards.forEach(card => {
+
+        const name =
+            card.dataset.name
+                .toLowerCase();
+
+        const category =
+            card.dataset.category;
+
+
+        const matchesSearch =
+            name.includes(search);
+
+        const matchesCategory =
+            currentCategory === "all" ||
+            category === currentCategory;
+
+
+        if(
+            matchesSearch &&
+            matchesCategory
+        ){
+
+            card.style.display = "";
+
+            visibleCount++;
+
+        }else{
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+
+    if(visibleCount === 0){
+
+        noResults.style.display =
+            "block";
+
+    }else{
+
+        noResults.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* SEARCH */
+
+searchInput.addEventListener(
+    "input",
+    filterApps
+);
+
+
+/* CATEGORY */
+
+categoryButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        function(){
+
+            categoryButtons.forEach(btn => {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            this.classList.add("active");
+
+
+            currentCategory =
+                this.dataset.category;
+
+
+            filterApps();
+
+        }
+    );
+
+});
+
+</script>
 
 </body>
 
